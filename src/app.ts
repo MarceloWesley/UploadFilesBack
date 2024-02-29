@@ -7,6 +7,9 @@ import { fileRoutes } from "./routes/file";
 
 
 class Application {
+  use(arg0: (err: any, req: any, res: any, next: any) => any) {
+      throw new Error("Method not implemented.");
+  }
   public server: Express;
 
   public constructor() {

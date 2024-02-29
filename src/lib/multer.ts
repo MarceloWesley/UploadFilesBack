@@ -1,5 +1,5 @@
-import multer, { FileFilterCallback } from "multer";
-import { randomBytes } from "crypto";
+import multer from "multer";
+import { v4 as uuidv4 } from "uuid";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -7,11 +7,17 @@ const storage = multer.diskStorage({
   },
 
   filename: (req, file, cb) => {
-    const extensaoArquivo = file.originalname.split(".")[1];
+    const uuid = uuidv4();
+    const hash = parseInt(uuid.replace(/\D/g, "").slice(0, 9), 16);
+    const id = 1 + (hash % 200);
 
-    const novoNomeArquivo = randomBytes(64).toString("hex");
+    const fileExtension = file.originalname.split(".").pop();
 
-    cb(null, `${novoNomeArquivo}.${extensaoArquivo}`);
+    const fileName = `${id}-${file.originalname
+      .replace(/\.\w+$/, "")
+      .replace(/\s/g, "-")}`;
+
+    cb(null, `${fileName}.${fileExtension}`);
   },
 });
 
@@ -24,19 +30,23 @@ function fileFilter(req: any, file: any, cb: any) {
     "image/svg+xml",
     "application/pdf",
   ];
+
+  if (!file) {
+    return cb(new Error("No files found"));
+  }
+
   const isValid = validFile.includes(file.mimetype);
 
   if (isValid) {
     cb(null, true);
   } else {
-    cb(null, false);
-    cb(new Error("Formato do arquivo inválido"));
+    cb(new Error("Invalid file format"));
   }
 }
 
 const upload = multer({
   storage,
-  limits: { fileSize: 140 * 1024 },
+  limits: { fileSize: 3 * 1024 * 1024 },
   fileFilter,
 });
 
