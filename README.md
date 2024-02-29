@@ -23,8 +23,8 @@ I did this project with the aim of learning the basics of nodejs as I want to fo
 If you want to clone this project, you will need to create a folder called "uploads" in the root of the project so that the images can be saved there.
 
 ## Cloning the Project
-If you want to clone the project, just copy the ssh key and write "git clone (ssh key)" in your terminal,  and with the project open, open your editor's terminal and type ```yarn``` to install the dependencies, 
-after that, type ```yarn dev``` to run the project.
+If you want to clone the project, just copy the ssh key and write "git clone (ssh key)" in your terminal,  and with the project open, open your editor's terminal and type ```npm i``` to install the dependencies, 
+after that, type ```npm run dev``` to run the project.
 
 ## Technologies
 - Nodejs
